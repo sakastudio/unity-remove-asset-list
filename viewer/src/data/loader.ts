@@ -21,7 +21,7 @@ function getUnityMajorVersion(version: string | null): string | null {
 }
 
 export async function loadAssets(): Promise<LoadedData> {
-  const res = await fetch('/asset-details.json');
+  const res = await fetch(`${import.meta.env.BASE_URL}asset-details.json`);
   const raw: AssetDetail[] = await res.json();
 
   // Decode HTML entities
@@ -31,6 +31,7 @@ export async function loadAssets(): Promise<LoadedData> {
     publisher: decodeHtmlEntities(a.publisher),
     description: decodeHtmlEntities(a.description),
     keywords: a.keywords.map(decodeHtmlEntities),
+    category: a.category.map(decodeHtmlEntities),
   }));
 
   // Build category tree

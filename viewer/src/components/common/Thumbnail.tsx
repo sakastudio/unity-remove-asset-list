@@ -8,7 +8,8 @@ interface Props {
 
 export function Thumbnail({ src, alt, className = '' }: Props) {
   const [error, setError] = useState(false);
-  const imgSrc = !src || error ? '/placeholder.svg' : `/${src}`;
+  const base = import.meta.env.BASE_URL;
+  const imgSrc = !src || error ? `${base}placeholder.svg` : `${base}${src}`;
 
   return (
     <img
