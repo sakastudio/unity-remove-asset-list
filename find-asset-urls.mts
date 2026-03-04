@@ -183,6 +183,9 @@ async function coveoSearch(
 
 // ─── Matching ───────────────────────────────────────────────────────────────
 
+const MATCH_THRESHOLD = 0.7;
+const FUZZY_THRESHOLD = 0.85;
+
 function normalize(s: string): string {
   return s
     .toLowerCase()
@@ -191,15 +194,22 @@ function normalize(s: string): string {
     .trim();
 }
 
-function titlesMatch(expected: string, found: string): boolean {
+function titleSimilarity(expected: string, found: string): number {
   const a = normalize(expected);
   const b = normalize(found);
-  if (a === b) return true;
-  if (a.includes(b) || b.includes(a)) return true;
-  const aNoSpace = a.replace(/\s/g, "");
-  const bNoSpace = b.replace(/\s/g, "");
-  if (aNoSpace === bNoSpace) return true;
-  return false;
+
+  // Exact match
+  if (a === b) return 1.0;
+
+  // Exact match ignoring spaces (e.g. "GameKit" vs "Game Kit")
+  if (a.replace(/\s/g, "") === b.replace(/\s/g, "")) return 0.95;
+
+  // Token-based Jaccard similarity
+  const tokensA = new Set(a.split(/\s+/));
+  const tokensB = new Set(b.split(/\s+/));
+  const intersection = [...tokensA].filter((t) => tokensB.has(t)).length;
+  const union = new Set([...tokensA, ...tokensB]).size;
+  return union > 0 ? intersection / union : 0;
 }
 
 function extractUrl(result: any): string | null {
@@ -213,6 +223,34 @@ function extractUrl(result: any): string | null {
     return `https://assetstore.unity.com/packages/package/${productId}`;
   }
   return null;
+}
+
+// Global set to prevent assigning the same URL to multiple assets
+const usedUrls = new Set<string>();
+
+// ─── Best-match helper ──────────────────────────────────────────────────────
+
+function findBestMatch(
+  assetName: string,
+  results: any[],
+  usedResultIndices: Set<number>
+): { resultIdx: number; url: string; score: number } | null {
+  let best: { resultIdx: number; url: string; score: number } | null = null;
+
+  for (let i = 0; i < results.length; i++) {
+    if (usedResultIndices.has(i)) continue;
+    const title = results[i].title || "";
+    const score = titleSimilarity(assetName, title);
+    if (score < MATCH_THRESHOLD) continue;
+
+    const url = extractUrl(results[i]);
+    if (!url || usedUrls.has(url)) continue;
+
+    if (!best || score > best.score) {
+      best = { resultIdx: i, url, score };
+    }
+  }
+  return best;
 }
 
 // ─── Publisher Processing ───────────────────────────────────────────────────
@@ -232,33 +270,45 @@ async function processPublisher(
   const results = await coveoSearch(session, "", aq, COVEO_RESULTS_PER_PAGE);
   await sleep(REQUEST_DELAY_MS);
 
-  const unmatched: InputAsset[] = [];
+  // ── Best-match with 1:1 constraint (greedy) ──
+  // Compute all scores, sort descending, assign greedily
+  const pendingAssets = assets.filter(
+    (a) => !resolvedSet.has(`${a.asset}|||${a.publisher}`)
+  );
 
-  for (const asset of assets) {
-    const key = `${asset.asset}|||${asset.publisher}`;
-    if (resolvedSet.has(key)) continue;
-
-    let found = false;
-    for (const result of results) {
-      const title = result.title || "";
-      if (titlesMatch(asset.asset, title)) {
-        const url = extractUrl(result);
-        if (url) {
-          progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url });
-          resolvedSet.add(key);
-          console.log(`  OK: "${asset.asset}" -> ${url}`);
-          found = true;
-          break;
-        }
-      }
-    }
-
-    if (!found) {
-      unmatched.push(asset);
+  const scores: { assetIdx: number; resultIdx: number; score: number; url: string }[] = [];
+  for (let ai = 0; ai < pendingAssets.length; ai++) {
+    for (let ri = 0; ri < results.length; ri++) {
+      const title = results[ri].title || "";
+      const score = titleSimilarity(pendingAssets[ai].asset, title);
+      if (score < MATCH_THRESHOLD) continue;
+      const url = extractUrl(results[ri]);
+      if (!url || usedUrls.has(url)) continue;
+      scores.push({ assetIdx: ai, resultIdx: ri, score, url });
     }
   }
 
-  // Individual search for unmatched
+  scores.sort((a, b) => b.score - a.score);
+
+  const matchedAssets = new Set<number>();
+  const matchedResults = new Set<number>();
+
+  for (const { assetIdx, resultIdx, score, url } of scores) {
+    if (matchedAssets.has(assetIdx) || matchedResults.has(resultIdx)) continue;
+    if (usedUrls.has(url)) continue;
+
+    const asset = pendingAssets[assetIdx];
+    progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url });
+    resolvedSet.add(`${asset.asset}|||${asset.publisher}`);
+    usedUrls.add(url);
+    matchedAssets.add(assetIdx);
+    matchedResults.add(resultIdx);
+    console.log(`  OK: "${asset.asset}" -> ${url} (score: ${score.toFixed(2)})`);
+  }
+
+  // ── Individual search for unmatched ──
+  const unmatched = pendingAssets.filter((_, i) => !matchedAssets.has(i));
+
   for (const asset of unmatched) {
     const key = `${asset.asset}|||${asset.publisher}`;
     if (resolvedSet.has(key)) continue;
@@ -267,40 +317,37 @@ async function processPublisher(
     const individualResults = await coveoSearch(session, asset.asset, aq, 10);
     await sleep(REQUEST_DELAY_MS);
 
-    let found = false;
-    for (const result of individualResults) {
-      const title = result.title || "";
-      if (titlesMatch(asset.asset, title)) {
-        const url = extractUrl(result);
-        if (url) {
-          progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url });
-          resolvedSet.add(key);
-          console.log(`  OK: "${asset.asset}" -> ${url}`);
-          found = true;
-          break;
-        }
-      }
+    const match = findBestMatch(asset.asset, individualResults, new Set());
+    if (match && !usedUrls.has(match.url)) {
+      progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url: match.url });
+      resolvedSet.add(key);
+      usedUrls.add(match.url);
+      console.log(`  OK: "${asset.asset}" -> ${match.url} (individual, score: ${match.score.toFixed(2)})`);
+      continue;
     }
 
-    if (!found) {
-      // Broad search without publisher filter
-      const broadResults = await coveoSearch(session, asset.asset, "", 10);
-      await sleep(REQUEST_DELAY_MS);
+    // Broad search without publisher filter
+    const broadResults = await coveoSearch(session, asset.asset, "", 10);
+    await sleep(REQUEST_DELAY_MS);
 
-      for (const result of broadResults) {
-        const title = result.title || "";
-        const resultPub = result.raw?.publisher_name || "";
-        if (titlesMatch(asset.asset, title) && normalize(resultPub).includes(normalize(publisher))) {
-          const url = extractUrl(result);
-          if (url) {
-            progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url });
-            resolvedSet.add(key);
-            console.log(`  OK: "${asset.asset}" -> ${url} (broad)`);
-            found = true;
-            break;
-          }
-        }
-      }
+    // Filter by publisher similarity
+    let found = false;
+    for (const result of broadResults) {
+      const title = result.title || "";
+      const resultPub = result.raw?.publisher_name || "";
+      const score = titleSimilarity(asset.asset, title);
+      if (score < MATCH_THRESHOLD) continue;
+      if (normalize(resultPub) !== normalize(publisher)) continue;
+
+      const url = extractUrl(result);
+      if (!url || usedUrls.has(url)) continue;
+
+      progress.resolved.push({ asset: asset.asset, publisher: asset.publisher, url });
+      resolvedSet.add(key);
+      usedUrls.add(url);
+      console.log(`  OK: "${asset.asset}" -> ${url} (broad, score: ${score.toFixed(2)})`);
+      found = true;
+      break;
     }
 
     if (!found) {
@@ -320,6 +367,10 @@ async function main() {
 
   const progress = await loadProgress();
   const resolvedSet = new Set(progress.resolved.map((r) => `${r.asset}|||${r.publisher}`));
+  // Initialize usedUrls from previously resolved entries
+  for (const r of progress.resolved) {
+    usedUrls.add(r.url);
+  }
   console.log(`Progress: ${progress.resolved.length} resolved, ${progress.failed.length} failed`);
 
   // Deduplicate
@@ -445,34 +496,41 @@ async function main() {
         const results = await coveoSearch(session, item.asset, "", 20);
         let found = false;
 
-        // Strict: title + publisher match
+        // Score all results, pick best with publisher match
+        let bestMatch: { url: string; score: number } | null = null;
+        let bestFuzzy: { url: string; score: number } | null = null;
+
         for (const result of results) {
           const title = result.title || "";
           const pub = result.raw?.publisher_name || "";
-          if (titlesMatch(item.asset, title) && normalize(pub).includes(normalize(item.publisher))) {
-            const url = extractUrl(result);
-            if (url) {
-              progress.resolved.push({ asset: item.asset, publisher: item.publisher, url });
-              console.log(`    -> ${url}`);
-              found = true;
-              break;
+          const score = titleSimilarity(item.asset, title);
+          const url = extractUrl(result);
+          if (!url || usedUrls.has(url)) continue;
+
+          // Strict: title + publisher match
+          if (score >= MATCH_THRESHOLD && normalize(pub) === normalize(item.publisher)) {
+            if (!bestMatch || score > bestMatch.score) {
+              bestMatch = { url, score };
+            }
+          }
+          // Fuzzy: title only (higher threshold)
+          if (score >= FUZZY_THRESHOLD) {
+            if (!bestFuzzy || score > bestFuzzy.score) {
+              bestFuzzy = { url, score };
             }
           }
         }
 
-        // Loose: title only
-        if (!found) {
-          for (const result of results) {
-            if (titlesMatch(item.asset, result.title || "")) {
-              const url = extractUrl(result);
-              if (url) {
-                progress.resolved.push({ asset: item.asset, publisher: item.publisher, url });
-                console.log(`    -> ${url} (fuzzy)`);
-                found = true;
-                break;
-              }
-            }
-          }
+        if (bestMatch) {
+          progress.resolved.push({ asset: item.asset, publisher: item.publisher, url: bestMatch.url });
+          usedUrls.add(bestMatch.url);
+          console.log(`    -> ${bestMatch.url} (score: ${bestMatch.score.toFixed(2)})`);
+          found = true;
+        } else if (bestFuzzy) {
+          progress.resolved.push({ asset: item.asset, publisher: item.publisher, url: bestFuzzy.url });
+          usedUrls.add(bestFuzzy.url);
+          console.log(`    -> ${bestFuzzy.url} (fuzzy, score: ${bestFuzzy.score.toFixed(2)})`);
+          found = true;
         }
 
         if (!found) progress.failed.push(item);
