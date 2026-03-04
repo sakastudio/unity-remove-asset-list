@@ -4,33 +4,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-Unity Asset Storeから2025年3月31日に削除されるアセット（約2,678件）の情報を収集・保存するスクレイピングツール群。TypeScript + ES Modules構成。
+Unity Asset Storeから2025年3月31日に削除されるアセット（約2,678件）の情報を収集・保存し、Webビューワーで閲覧できるようにするプロジェクト。
+
+- **スクレイピングツール**: TypeScript + ES Modules（ルート直下）
+- **Webビューワー**: React 19 + Vite + Tailwind CSS（`viewer/`）
 
 ## コマンド
 
 ```bash
-# セットアップ（依存関係 + Playwrightブラウザ）
-npm run setup
-
-# URL解決スクリプトの実行
+# === スクレイピングツール（ルート） ===
+npm run setup                    # 依存関係 + Playwrightブラウザインストール
 npm start                        # find-asset-urls.mts を実行
-npx tsx find-asset-urls.mts      # 同上
+npx tsx scrape-asset-details.mts # 詳細スクレイピング
 
-# 詳細スクレイピングの実行
-npx tsx scrape-asset-details.mts
+# === Webビューワー（viewer/） ===
+cd viewer
+npm install
+npm run prepare-data             # publicにデータのシンボリックリンク作成
+npm run dev                      # 開発サーバー起動（port 5174）
+npm run build                    # tsc -b && vite build → dist/
+npm run preview                  # ビルド結果プレビュー
+npm run lint                     # ESLint
 ```
-
-テスト・リント・ビルドの設定はない。`tsx`で直接TypeScriptを実行する。
 
 ## アーキテクチャ
 
-### 2つの主要スクリプト（順番に実行）
+### データパイプライン（ルート・2つのスクリプトを順番に実行）
 
 1. **`find-asset-urls.mts`** — アセットURL解決
-   - Playwrightでブラウザを起動し、Unity Asset Storeの**Coveo検索APIセッション**（認証トークン）をリクエストインターセプトで取得
+   - Playwrightでブラウザを起動し、Unity Asset StoreのCoveo検索APIセッションをリクエストインターセプトで取得
    - パブリッシャー単位でバッチ検索 → 個別検索 → ファジー検索と多段階フォールバックでマッチング
-   - タイトルの類似度は**正規化Jaccard類似度**で判定（閾値: 0.7、ファジー: 0.85）
-   - Greedy 1:1マッチングでURL重複割当を防止
+   - タイトル類似度は正規化Jaccard類似度で判定（閾値: 0.7、ファジー: 0.85）
    - 入力: `assets_being_removed_march_31st.json` → 出力: `results.json`
 
 2. **`scrape-asset-details.mts`** — メタデータ・サムネイル取得
@@ -39,11 +43,33 @@ npx tsx scrape-asset-details.mts
    - サムネイルを`thumbnails/`にダウンロード（packageIdベースのファイル名）
    - 出力: `asset-details.json`
 
-### 共通パターン
+共通パターン: レジューム機能（`progress.json` / `scrape-progress.json`）、リトライ+指数バックオフ、SIGINT graceful shutdown
 
-- **レジューム機能**: `progress.json` / `scrape-progress.json` にチェックポイント保存。中断しても途中から再開可能
-- **リトライ + 指数バックオフ**: レート制限やネットワークエラーに対応
-- **SIGINT graceful shutdown**: Ctrl+Cで安全に中断・保存
+### Webビューワー（`viewer/`）
+
+React SPAで`asset-details.json`を読み込み、検索・フィルタ・ソート・詳細表示を提供。
+
+```
+viewer/src/
+├── App.tsx                 # メインコンポーネント
+├── types.ts                # AssetDetail, Filters, SortConfig等の型定義
+├── components/
+│   ├── common/             # Badge, StarRating, Thumbnail
+│   ├── detail/             # AssetDetail, AssetModal（モーダル詳細表示）
+│   ├── filters/            # CategoryFilter, PriceFilter, RatingFilter等
+│   ├── grid/               # AssetCard, AssetGrid, Pagination（24件/ページ）
+│   └── layout/             # Header, Sidebar, FilterDrawer（レスポンシブ）
+├── hooks/
+│   ├── useAssets.ts        # メイン状態管理（フィルタ・ソート・ページネーション）
+│   ├── useDebounce.ts      # 検索クエリのデバウンス
+│   └── useUrlParams.ts     # URLパラメータ同期（ブックマーク可能）
+└── data/
+    ├── loader.ts           # JSONロード + HTMLエンティティデコード等の前処理
+    ├── search.ts           # フィルタ・ソート・全文検索ロジック
+    └── categories.ts       # カテゴリツリー構築
+```
+
+データファイルは`viewer/public/`からルートへのシンボリックリンクで参照（`npm run prepare-data`で作成）。
 
 ## データファイル
 
@@ -52,8 +78,7 @@ npx tsx scrape-asset-details.mts
 | `assets_being_removed_march_31st.json` | 入力: `[{ asset, publisher }, ...]` |
 | `results.json` | URL解決結果: `[{ asset, publisher, url }, ...]` |
 | `asset-details.json` | 全メタデータ（価格, 評価, カテゴリ, 技術仕様等） |
-| `thumbnails/` | サムネイル画像（`{packageId}.jpg`） |
-| `progress.json` | URL解決の進捗（.gitignore対象） |
+| `thumbnails/` | サムネイル画像（`{packageId}.jpg`）約2,675件 |
 
 ## 注意事項
 

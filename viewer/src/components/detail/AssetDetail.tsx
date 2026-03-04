@@ -20,6 +20,16 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
         <div className="flex-1 space-y-3">
           <h2 className="text-2xl font-bold text-gray-900">{asset.asset}</h2>
           <p className="text-gray-600">{asset.publisher}</p>
+          {asset.url && (
+            <a
+              href={asset.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
+            >
+              Asset Store で見る ↗
+            </a>
+          )}
           <div className="flex items-center gap-3">
             <StarRating rating={asset.rating} reviewCount={asset.reviewCount} size="md" />
           </div>
@@ -103,25 +113,6 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
         </div>
       )}
 
-      {/* Warning + URL */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm">
-        <p className="font-medium text-amber-800">
-          ⚠ このアセットはストアから削除されました
-        </p>
-        {asset.url && (
-          <p className="mt-1 text-amber-700">
-            元のURL:{' '}
-            <a
-              href={asset.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline break-all"
-            >
-              {asset.url}
-            </a>
-          </p>
-        )}
-      </div>
     </div>
   );
 }
