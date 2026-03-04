@@ -1,0 +1,1471 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "search-top-desktop",
+      "name": "Search Top - Desktop (1440px)",
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 1200,
+      "fill": "#F3F4F6",
+      "layout": "vertical",
+      "gap": 0,
+      "children": [
+        {
+          "type": "frame",
+          "id": "header",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#FFFFFF",
+          "layout": "horizontal",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "padding": [0, 0, 0, 0],
+          "effects": [
+            {
+              "type": "shadow",
+              "color": "#00000015",
+              "offset": [0, 1],
+              "blur": 3
+            }
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "header-content",
+              "name": "Header Content",
+              "width": 1280,
+              "height": "fill_container",
+              "layout": "horizontal",
+              "alignItems": "center",
+              "gap": 16,
+              "padding": [0, 16, 0, 16],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "header-title",
+                  "name": "App Title",
+                  "text": "Removed Assets Archive",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": 700,
+                  "fill": "#111827",
+                  "width": "fit_content",
+                  "height": "fit_content"
+                },
+                {
+                  "type": "frame",
+                  "id": "search-box",
+                  "name": "Search Box",
+                  "width": "fill_container",
+                  "height": 40,
+                  "fill": "#F9FAFB",
+                  "cornerRadius": 8,
+                  "stroke": "#D1D5DB",
+                  "strokeWidth": 1,
+                  "layout": "horizontal",
+                  "alignItems": "center",
+                  "gap": 8,
+                  "padding": [0, 12, 0, 12],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "search-icon",
+                      "name": "Search Icon",
+                      "text": "🔍",
+                      "fontSize": 14,
+                      "fill": "#9CA3AF",
+                      "width": "fit_content",
+                      "height": "fit_content"
+                    },
+                    {
+                      "type": "text",
+                      "id": "search-placeholder",
+                      "name": "Search Placeholder",
+                      "text": "Search assets...",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fill": "#9CA3AF",
+                      "width": "fill_container",
+                      "height": "fit_content"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "asset-count",
+                  "name": "Asset Count",
+                  "text": "2,678 / 2,678 assets",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fill": "#6B7280",
+                  "width": "fit_content",
+                  "height": "fit_content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "main-area",
+          "name": "Main Area",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "horizontal",
+          "justifyContent": "center",
+          "padding": [16, 0, 0, 0],
+          "children": [
+            {
+              "type": "frame",
+              "id": "main-content",
+              "name": "Main Content (max-width)",
+              "width": 1280,
+              "height": "fill_container",
+              "layout": "horizontal",
+              "gap": 24,
+              "padding": [0, 16, 0, 16],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sidebar",
+                  "name": "Sidebar",
+                  "width": 280,
+                  "height": "fit_content",
+                  "layout": "vertical",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "sort-section",
+                      "name": "Sort Section",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sort-label",
+                          "name": "Sort Label",
+                          "text": "Sort",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": 600,
+                          "fill": "#374151",
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "sort-select",
+                          "name": "Sort Select",
+                          "width": "fill_container",
+                          "height": 36,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 6,
+                          "stroke": "#D1D5DB",
+                          "strokeWidth": 1,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sort-value",
+                              "text": "デフォルト",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#374151",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            },
+                            {
+                              "type": "text",
+                              "id": "sort-arrow",
+                              "text": "▼",
+                              "fontSize": 10,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "category-section",
+                      "name": "Category Section",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "category-label",
+                          "name": "Category Label",
+                          "text": "Category",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": 600,
+                          "fill": "#374151",
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cat-3d",
+                          "name": "Category: 3D",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cat-3d-left",
+                              "width": "fit_content",
+                              "height": "fit_content",
+                              "layout": "horizontal",
+                              "gap": 4,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cat-3d-arrow",
+                                  "text": "▶",
+                                  "fontSize": 10,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cat-3d-name",
+                                  "text": "3D",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cat-3d-count",
+                              "text": "842",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cat-2d",
+                          "name": "Category: 2D",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cat-2d-left",
+                              "width": "fit_content",
+                              "height": "fit_content",
+                              "layout": "horizontal",
+                              "gap": 4,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cat-2d-arrow",
+                                  "text": "▶",
+                                  "fontSize": 10,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cat-2d-name",
+                                  "text": "2D",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cat-2d-count",
+                              "text": "356",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cat-tools",
+                          "name": "Category: Tools",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cat-tools-left",
+                              "width": "fit_content",
+                              "height": "fit_content",
+                              "layout": "horizontal",
+                              "gap": 4,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cat-tools-arrow",
+                                  "text": "▶",
+                                  "fontSize": 10,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cat-tools-name",
+                                  "text": "Tools",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cat-tools-count",
+                              "text": "523",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cat-vfx",
+                          "name": "Category: VFX",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cat-vfx-left",
+                              "width": "fit_content",
+                              "height": "fit_content",
+                              "layout": "horizontal",
+                              "gap": 4,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cat-vfx-arrow",
+                                  "text": "▶",
+                                  "fontSize": 10,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cat-vfx-name",
+                                  "text": "VFX",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cat-vfx-count",
+                              "text": "198",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "cat-audio",
+                          "name": "Category: Audio",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "justifyContent": "space_between",
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cat-audio-left",
+                              "width": "fit_content",
+                              "height": "fit_content",
+                              "layout": "horizontal",
+                              "gap": 4,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cat-audio-arrow",
+                                  "text": "▶",
+                                  "fontSize": 10,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "cat-audio-name",
+                                  "text": "Audio",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fill": "#374151",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "cat-audio-count",
+                              "text": "145",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "price-section",
+                      "name": "Price Section",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "price-label",
+                          "name": "Price Label",
+                          "text": "Price",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": 600,
+                          "fill": "#374151",
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "price-buttons",
+                          "name": "Price Buttons",
+                          "width": "fill_container",
+                          "height": "fit_content",
+                          "layout": "horizontal",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "price-all",
+                              "name": "Price: All (active)",
+                              "width": "fill_container",
+                              "height": 32,
+                              "fill": "#2563EB",
+                              "cornerRadius": 6,
+                              "layout": "horizontal",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "price-all-text",
+                                  "text": "All",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": 500,
+                                  "fill": "#FFFFFF",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "price-free",
+                              "name": "Price: Free",
+                              "width": "fill_container",
+                              "height": 32,
+                              "fill": "#F3F4F6",
+                              "cornerRadius": 6,
+                              "layout": "horizontal",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "price-free-text",
+                                  "text": "Free",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": 500,
+                                  "fill": "#4B5563",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "price-paid",
+                              "name": "Price: Paid",
+                              "width": "fill_container",
+                              "height": 32,
+                              "fill": "#F3F4F6",
+                              "cornerRadius": 6,
+                              "layout": "horizontal",
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "price-paid-text",
+                                  "text": "Paid",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fontWeight": 500,
+                                  "fill": "#4B5563",
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "rating-section",
+                      "name": "Rating Section",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rating-label",
+                          "name": "Rating Label",
+                          "text": "Minimum Rating",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": 600,
+                          "fill": "#374151",
+                          "width": "fit_content",
+                          "height": "fit_content"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rating-5",
+                          "name": "Rating 5 stars",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "gap": 8,
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "stars-5",
+                              "text": "★★★★★",
+                              "fontSize": 14,
+                              "fill": "#FACC15",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rating-5-label",
+                              "text": "& up",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rating-4",
+                          "name": "Rating 4 stars",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "gap": 8,
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "stars-4",
+                              "text": "★★★★☆",
+                              "fontSize": 14,
+                              "fill": "#FACC15",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rating-4-label",
+                              "text": "& up",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rating-3",
+                          "name": "Rating 3 stars",
+                          "width": "fill_container",
+                          "height": 32,
+                          "layout": "horizontal",
+                          "alignItems": "center",
+                          "gap": 8,
+                          "padding": [0, 8, 0, 8],
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "stars-3",
+                              "text": "★★★☆☆",
+                              "fontSize": 14,
+                              "fill": "#FACC15",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            },
+                            {
+                              "type": "text",
+                              "id": "rating-3-label",
+                              "text": "& up",
+                              "fontFamily": "Inter",
+                              "fontSize": 12,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "grid-area",
+                  "name": "Grid Area",
+                  "width": "fill_container",
+                  "height": "fit_content",
+                  "layout": "vertical",
+                  "gap": 32,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "asset-grid",
+                      "name": "Asset Grid (4 columns)",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "horizontal",
+                      "gap": 16,
+                      "flexWrap": "wrap",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "card-1",
+                          "name": "Asset Card 1",
+                          "width": 220,
+                          "height": "fit_content",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "vertical",
+                          "gap": 0,
+                          "effects": [
+                            {
+                              "type": "shadow",
+                              "color": "#0000000D",
+                              "offset": [0, 1],
+                              "blur": 3
+                            }
+                          ],
+                          "clipContent": true,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "card-1-thumb",
+                              "name": "Thumbnail",
+                              "width": "fill_container",
+                              "height": 165,
+                              "fill": "#E5E7EB",
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "card-1-price-badge",
+                                  "name": "Price Badge",
+                                  "x": 168,
+                                  "y": 8,
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "fill": "#1F2937",
+                                  "cornerRadius": 4,
+                                  "padding": [2, 8, 2, 8],
+                                  "layout": "horizontal",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-1-price",
+                                      "text": "$24.99",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fontWeight": 600,
+                                      "fill": "#FFFFFF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-1-thumb-text",
+                                  "name": "Thumbnail Placeholder",
+                                  "text": "4:3",
+                                  "fontSize": 24,
+                                  "fill": "#9CA3AF",
+                                  "x": 90,
+                                  "y": 70,
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "card-1-info",
+                              "name": "Card Info",
+                              "width": "fill_container",
+                              "height": "fit_content",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [12, 12, 12, 12],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "card-1-title",
+                                  "name": "Asset Title",
+                                  "text": "Low Poly Nature Pack",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fontWeight": 500,
+                                  "fill": "#111827",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-1-publisher",
+                                  "name": "Publisher",
+                                  "text": "Nature Studios",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fill": "#6B7280",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "card-1-rating",
+                                  "name": "Rating",
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "layout": "horizontal",
+                                  "gap": 4,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-1-stars",
+                                      "text": "★★★★★",
+                                      "fontSize": 12,
+                                      "fill": "#FACC15",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "card-1-reviews",
+                                      "text": "(128)",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fill": "#9CA3AF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "card-2",
+                          "name": "Asset Card 2",
+                          "width": 220,
+                          "height": "fit_content",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "vertical",
+                          "gap": 0,
+                          "effects": [
+                            {
+                              "type": "shadow",
+                              "color": "#0000000D",
+                              "offset": [0, 1],
+                              "blur": 3
+                            }
+                          ],
+                          "clipContent": true,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "card-2-thumb",
+                              "name": "Thumbnail",
+                              "width": "fill_container",
+                              "height": 165,
+                              "fill": "#DBEAFE",
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "card-2-price-badge",
+                                  "name": "Price Badge (Free)",
+                                  "x": 175,
+                                  "y": 8,
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "fill": "#059669",
+                                  "cornerRadius": 4,
+                                  "padding": [2, 8, 2, 8],
+                                  "layout": "horizontal",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-2-price",
+                                      "text": "FREE",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fontWeight": 600,
+                                      "fill": "#FFFFFF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-2-thumb-text",
+                                  "text": "4:3",
+                                  "fontSize": 24,
+                                  "fill": "#93C5FD",
+                                  "x": 90,
+                                  "y": 70,
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "card-2-info",
+                              "name": "Card Info",
+                              "width": "fill_container",
+                              "height": "fit_content",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [12, 12, 12, 12],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "card-2-title",
+                                  "text": "UI Toolkit Pro",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fontWeight": 500,
+                                  "fill": "#111827",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-2-publisher",
+                                  "text": "UI Masters",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fill": "#6B7280",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "card-2-rating",
+                                  "name": "Rating",
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "layout": "horizontal",
+                                  "gap": 4,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-2-stars",
+                                      "text": "★★★★☆",
+                                      "fontSize": 12,
+                                      "fill": "#FACC15",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "card-2-reviews",
+                                      "text": "(42)",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fill": "#9CA3AF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "card-3",
+                          "name": "Asset Card 3",
+                          "width": 220,
+                          "height": "fit_content",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "vertical",
+                          "gap": 0,
+                          "effects": [
+                            {
+                              "type": "shadow",
+                              "color": "#0000000D",
+                              "offset": [0, 1],
+                              "blur": 3
+                            }
+                          ],
+                          "clipContent": true,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "card-3-thumb",
+                              "name": "Thumbnail",
+                              "width": "fill_container",
+                              "height": 165,
+                              "fill": "#FEF3C7",
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "card-3-price-badge",
+                                  "name": "Price Badge",
+                                  "x": 168,
+                                  "y": 8,
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "fill": "#1F2937",
+                                  "cornerRadius": 4,
+                                  "padding": [2, 8, 2, 8],
+                                  "layout": "horizontal",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-3-price",
+                                      "text": "$49.99",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fontWeight": 600,
+                                      "fill": "#FFFFFF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-3-thumb-text",
+                                  "text": "4:3",
+                                  "fontSize": 24,
+                                  "fill": "#FCD34D",
+                                  "x": 90,
+                                  "y": 70,
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "card-3-info",
+                              "name": "Card Info",
+                              "width": "fill_container",
+                              "height": "fit_content",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [12, 12, 12, 12],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "card-3-title",
+                                  "text": "Fantasy Character Animations",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fontWeight": 500,
+                                  "fill": "#111827",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-3-publisher",
+                                  "text": "AnimPro",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fill": "#6B7280",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "card-3-rating",
+                                  "name": "Rating",
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "layout": "horizontal",
+                                  "gap": 4,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-3-stars",
+                                      "text": "★★★★★",
+                                      "fontSize": 12,
+                                      "fill": "#FACC15",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "card-3-reviews",
+                                      "text": "(256)",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fill": "#9CA3AF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "card-4",
+                          "name": "Asset Card 4",
+                          "width": 220,
+                          "height": "fit_content",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 8,
+                          "layout": "vertical",
+                          "gap": 0,
+                          "effects": [
+                            {
+                              "type": "shadow",
+                              "color": "#0000000D",
+                              "offset": [0, 1],
+                              "blur": 3
+                            }
+                          ],
+                          "clipContent": true,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "card-4-thumb",
+                              "name": "Thumbnail",
+                              "width": "fill_container",
+                              "height": 165,
+                              "fill": "#F3E8FF",
+                              "layout": "none",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "card-4-price-badge",
+                                  "name": "Price Badge",
+                                  "x": 168,
+                                  "y": 8,
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "fill": "#1F2937",
+                                  "cornerRadius": 4,
+                                  "padding": [2, 8, 2, 8],
+                                  "layout": "horizontal",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-4-price",
+                                      "text": "$14.99",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fontWeight": 600,
+                                      "fill": "#FFFFFF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-4-thumb-text",
+                                  "text": "4:3",
+                                  "fontSize": 24,
+                                  "fill": "#C084FC",
+                                  "x": 90,
+                                  "y": 70,
+                                  "width": "fit_content",
+                                  "height": "fit_content"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "card-4-info",
+                              "name": "Card Info",
+                              "width": "fill_container",
+                              "height": "fit_content",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": [12, 12, 12, 12],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "card-4-title",
+                                  "text": "Shader Collection",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fontWeight": 500,
+                                  "fill": "#111827",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "card-4-publisher",
+                                  "text": "VFX Wizards",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 12,
+                                  "fill": "#6B7280",
+                                  "width": "fill_container",
+                                  "height": "fit_content"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "card-4-rating",
+                                  "name": "Rating",
+                                  "width": "fit_content",
+                                  "height": "fit_content",
+                                  "layout": "horizontal",
+                                  "gap": 4,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "card-4-stars",
+                                      "text": "★★★★☆",
+                                      "fontSize": 12,
+                                      "fill": "#FACC15",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "card-4-reviews",
+                                      "text": "(89)",
+                                      "fontFamily": "Inter",
+                                      "fontSize": 11,
+                                      "fill": "#9CA3AF",
+                                      "width": "fit_content",
+                                      "height": "fit_content"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pagination",
+                      "name": "Pagination",
+                      "width": "fill_container",
+                      "height": "fit_content",
+                      "layout": "horizontal",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "page-prev",
+                          "name": "Prev Button",
+                          "width": 36,
+                          "height": 36,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-prev-text",
+                              "text": "<",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#D1D5DB",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-1",
+                          "name": "Page 1 (active)",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#2563EB",
+                          "cornerRadius": 4,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-1-text",
+                              "text": "1",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": 500,
+                              "fill": "#FFFFFF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-2",
+                          "name": "Page 2",
+                          "width": 36,
+                          "height": 36,
+                          "cornerRadius": 4,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-2-text",
+                              "text": "2",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#4B5563",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-3",
+                          "name": "Page 3",
+                          "width": 36,
+                          "height": 36,
+                          "cornerRadius": 4,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-3-text",
+                              "text": "3",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#4B5563",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-ellipsis",
+                          "name": "Ellipsis",
+                          "width": 36,
+                          "height": 36,
+                          "cornerRadius": 4,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-ellipsis-text",
+                              "text": "...",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#9CA3AF",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-112",
+                          "name": "Page 112 (last)",
+                          "width": 36,
+                          "height": 36,
+                          "cornerRadius": 4,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-112-text",
+                              "text": "112",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#4B5563",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "page-next",
+                          "name": "Next Button",
+                          "width": 36,
+                          "height": 36,
+                          "layout": "horizontal",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "cornerRadius": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "page-next-text",
+                              "text": ">",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fill": "#4B5563",
+                              "width": "fit_content",
+                              "height": "fit_content"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
