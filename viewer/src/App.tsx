@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useAssets } from './hooks/useAssets';
 import { Header } from './components/layout/Header';
+import { Toolbar } from './components/layout/Toolbar';
 import { Sidebar } from './components/layout/Sidebar';
 import { FilterDrawer } from './components/layout/FilterDrawer';
 import { ActiveFilters } from './components/filters/ActiveFilters';
@@ -15,6 +16,7 @@ export default function App() {
     allCount,
     pageCount,
     page,
+    pageSize,
     loading,
     selectedAsset,
     categoryTree,
@@ -28,6 +30,7 @@ export default function App() {
     updateFilters,
     setSort,
     setPage,
+    setPageSize,
     openAsset,
     closeAsset,
     clearFilters,
@@ -61,28 +64,39 @@ export default function App() {
         onToggleFilters={() => setDrawerOpen(true)}
       />
 
-      <div className="max-w-screen-2xl mx-auto w-full px-4 pt-4 flex-1">
-        {/* Active filters */}
-        {(hasActiveFilters || query) && (
-          <ActiveFilters
-            query={query}
-            filters={filters}
-            onRemoveQuery={() => setQuery('')}
-            onUpdateFilters={updateFilters}
-            onClearAll={clearFilters}
-          />
-        )}
-
-        <div className="flex gap-6">
-          {/* Sidebar (desktop) */}
-          <Sidebar
+      <div className="max-w-screen-2xl mx-auto w-full px-4 flex-1">
+        {/* Toolbar */}
+        <div className="hidden lg:block border-b">
+          <Toolbar
             filters={filters}
             sort={sort}
-            categoryTree={categoryTree}
             unityMajorVersions={unityMajorVersions}
-            priceRange={priceRange}
+            pageSize={pageSize}
             onUpdateFilters={updateFilters}
             onSortChange={setSort}
+            onPageSizeChange={setPageSize}
+          />
+        </div>
+
+        {/* Active filters */}
+        {(hasActiveFilters || query) && (
+          <div className="pt-3">
+            <ActiveFilters
+              query={query}
+              filters={filters}
+              onRemoveQuery={() => setQuery('')}
+              onUpdateFilters={updateFilters}
+              onClearAll={clearFilters}
+            />
+          </div>
+        )}
+
+        <div className="flex gap-6 pt-4">
+          {/* Sidebar (desktop) - category only */}
+          <Sidebar
+            filters={filters}
+            categoryTree={categoryTree}
+            onUpdateFilters={updateFilters}
           />
 
           {/* Main content */}

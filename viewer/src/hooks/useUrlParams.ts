@@ -7,6 +7,7 @@ interface UrlState {
   filters: Filters;
   sort: SortConfig | null;
   page: number;
+  pageSize?: number;
   assetId: string | null;
 }
 
@@ -22,6 +23,7 @@ function parseParams(): UrlState {
   const unity = params.get('unity');
   const sortParam = params.get('sort');
   const page = params.get('page');
+  const ps = params.get('ps');
 
   let sort: SortConfig | null = null;
   if (sortParam) {
@@ -49,6 +51,7 @@ function parseParams(): UrlState {
     },
     sort,
     page: page ? Math.max(1, parseInt(page)) : 1,
+    pageSize: ps ? parseInt(ps) : undefined,
     assetId: params.get('asset') || null,
   };
 }
@@ -65,6 +68,7 @@ function buildSearch(state: UrlState): string {
   if (state.filters.minRating !== null) params.set('rating', String(state.filters.minRating));
   if (state.filters.unityVersions.length) params.set('unity', state.filters.unityVersions.join(','));
   if (state.sort) params.set('sort', `${state.sort.field}-${state.sort.direction}`);
+  if (state.pageSize !== undefined && state.pageSize !== 50) params.set('ps', String(state.pageSize));
   if (state.page > 1) params.set('page', String(state.page));
   if (state.assetId) params.set('asset', state.assetId);
 

@@ -6,7 +6,7 @@ import { filterAndSort } from '../data/search';
 import { useDebounce } from './useDebounce';
 import { useUrlParams } from './useUrlParams';
 
-const PAGE_SIZE = 24;
+const DEFAULT_PAGE_SIZE = 50;
 
 export function useAssets() {
   const { initialState, updateUrl } = useUrlParams();
@@ -17,6 +17,7 @@ export function useAssets() {
   const [filters, setFilters] = useState<Filters>(initialState.filters);
   const [sort, setSort] = useState<SortConfig | null>(initialState.sort);
   const [page, setPageRaw] = useState(initialState.page);
+  const [pageSize, setPageSizeRaw] = useState(initialState.pageSize ?? DEFAULT_PAGE_SIZE);
   const [selectedAssetId, setSelectedAssetIdRaw] = useState<string | null>(initialState.assetId);
 
   const debouncedQuery = useDebounce(query);
@@ -36,9 +37,10 @@ export function useAssets() {
       filters,
       sort,
       page,
+      pageSize,
       assetId: selectedAssetId,
     });
-  }, [debouncedQuery, filters, sort, page, selectedAssetId, updateUrl]);
+  }, [debouncedQuery, filters, sort, page, pageSize, selectedAssetId, updateUrl]);
 
   // Handle browser back/forward
   useEffect(() => {
@@ -61,13 +63,16 @@ export function useAssets() {
     return filterAndSort(data.assets, debouncedQuery, filters, sort);
   }, [data, debouncedQuery, filters, sort]);
 
-  const pageCount = Math.max(1, Math.ceil(searchResult.totalCount / PAGE_SIZE));
+  // pageSize=0 means show all
+  const effectivePageSize = pageSize === 0 ? searchResult.totalCount || 1 : pageSize;
+  const pageCount = Math.max(1, Math.ceil(searchResult.totalCount / effectivePageSize));
   const safePage = Math.min(page, pageCount);
 
   const pageAssets = useMemo(() => {
-    const start = (safePage - 1) * PAGE_SIZE;
-    return searchResult.assets.slice(start, start + PAGE_SIZE);
-  }, [searchResult.assets, safePage]);
+    if (pageSize === 0) return searchResult.assets;
+    const start = (safePage - 1) * effectivePageSize;
+    return searchResult.assets.slice(start, start + effectivePageSize);
+  }, [searchResult.assets, safePage, pageSize, effectivePageSize]);
 
   const selectedAsset = useMemo(() => {
     if (!selectedAssetId || !data) return null;
@@ -95,6 +100,11 @@ export function useAssets() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const setPageSize = useCallback((size: number) => {
+    setPageSizeRaw(size);
+    setPageRaw(1);
+  }, []);
+
   const openAsset = useCallback((asset: AssetDetail) => {
     setSelectedAssetIdRaw(asset.packageId);
     updateUrl({
@@ -102,9 +112,10 @@ export function useAssets() {
       filters,
       sort,
       page,
+      pageSize,
       assetId: asset.packageId,
     }, true);
-  }, [debouncedQuery, filters, sort, page, updateUrl]);
+  }, [debouncedQuery, filters, sort, page, pageSize, updateUrl]);
 
   const closeAsset = useCallback(() => {
     setSelectedAssetIdRaw(null);
@@ -139,6 +150,7 @@ export function useAssets() {
     allCount: data?.assets.length ?? 0,
     pageCount,
     page: safePage,
+    pageSize,
     loading,
     selectedAsset,
 
@@ -158,6 +170,7 @@ export function useAssets() {
     updateFilters,
     setSort: setSort_,
     setPage,
+    setPageSize,
     openAsset,
     closeAsset,
     clearFilters,
