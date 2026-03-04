@@ -32,8 +32,9 @@ jobs:
 
       - name: Copy data files
         run: |
+          rm -f public/asset-details.json
           cp ../asset-details.json public/asset-details.json
-          rm -f public/thumbnails
+          rm -rf public/thumbnails
           cp -r ../thumbnails public/thumbnails
         working-directory: viewer
 
