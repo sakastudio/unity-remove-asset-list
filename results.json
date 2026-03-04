@@ -230,6 +230,11 @@
     "url": "https://assetstore.unity.com/packages/package/150042"
   },
   {
+    "asset": "1UP Snow Shader",
+    "publisher": "1UP Games",
+    "url": "https://assetstore.unity.com/packages/vfx/shaders/1up-snow-shader-148366"
+  },
+  {
     "asset": "1UP Tools",
     "publisher": "1UP Games",
     "url": "https://assetstore.unity.com/packages/package/197892"
@@ -1045,6 +1050,16 @@
     "url": "https://assetstore.unity.com/packages/package/279821"
   },
   {
+    "asset": "Fantasy Character Portraits - Dark and Light",
+    "publisher": "BG Studio",
+    "url": "https://assetstore.unity.com/packages/2d/gui/icons/fantasy-character-portraits-dark-and-light-258129"
+  },
+  {
+    "asset": "Fantasy Character Portraits - Normal and Zombie",
+    "publisher": "BG Studio",
+    "url": "https://assetstore.unity.com/packages/2d/gui/icons/fantasy-character-portraits-normal-and-zombie-279520"
+  },
+  {
     "asset": "Fireworks Celebration",
     "publisher": "BG Studio",
     "url": "https://assetstore.unity.com/packages/package/179944"
@@ -1193,6 +1208,11 @@
     "asset": "Projectile Toolkit 3",
     "publisher": "Blobcreate",
     "url": "https://assetstore.unity.com/packages/package/216129"
+  },
+  {
+    "asset": "PocketPython",
+    "publisher": "blueloveTH",
+    "url": "https://assetstore.unity.com/packages/tools/visual-scripting/pocketpython-241120"
   },
   {
     "asset": "Cartoon Factory Building",
@@ -3315,6 +3335,11 @@
     "url": "https://assetstore.unity.com/packages/package/157989"
   },
   {
+    "asset": "FM Network 3.0",
+    "publisher": "Frozen Mist",
+    "url": "https://assetstore.unity.com/packages/tools/network/fm-network-3-0-247219"
+  },
+  {
     "asset": "FM Network 4.0",
     "publisher": "Frozen Mist",
     "url": "https://assetstore.unity.com/packages/package/282469"
@@ -3338,6 +3363,11 @@
     "asset": "FM Remote Desktop 2 (Add-on)",
     "publisher": "Frozen Mist",
     "url": "https://assetstore.unity.com/packages/package/307908"
+  },
+  {
+    "asset": "FM WebSocket 2.0",
+    "publisher": "Frozen Mist",
+    "url": "https://assetstore.unity.com/packages/tools/network/fm-websocket-2-0-230875"
   },
   {
     "asset": "FM WebSocket 4.0",
@@ -4570,6 +4600,16 @@
     "url": "https://assetstore.unity.com/packages/package/285688"
   },
   {
+    "asset": "Bones And Remains",
+    "publisher": "Jesse Mario",
+    "url": "https://assetstore.unity.com/packages/3d/props/bones-and-remains-249320"
+  },
+  {
+    "asset": "Bush And Berry",
+    "publisher": "Jesse Mario",
+    "url": "https://assetstore.unity.com/packages/3d/vegetation/bush-and-berry-247188"
+  },
+  {
     "asset": "Chinese Ink Painting",
     "publisher": "Jesse Mario",
     "url": "https://assetstore.unity.com/packages/package/249173"
@@ -4630,6 +4670,11 @@
     "url": "https://assetstore.unity.com/packages/package/342958"
   },
   {
+    "asset": "Terrain Grass Pack",
+    "publisher": "Jesse Mario",
+    "url": "https://assetstore.unity.com/packages/3d/vegetation/terrain-grass-pack-244379"
+  },
+  {
     "asset": "Tropical Foliage Collection",
     "publisher": "Jesse Mario",
     "url": "https://assetstore.unity.com/packages/package/245513"
@@ -4638,6 +4683,11 @@
     "asset": "Universal Foliage",
     "publisher": "Jesse Mario",
     "url": "https://assetstore.unity.com/packages/package/245801"
+  },
+  {
+    "asset": "Versatile Grasses",
+    "publisher": "Jesse Mario",
+    "url": "https://assetstore.unity.com/packages/3d/vegetation/versatile-grasses-244184"
   },
   {
     "asset": "Vine & Creepers Collection",
@@ -6193,6 +6243,11 @@
     "asset": "Worms Walking Effect",
     "publisher": "Maything Studio",
     "url": "https://assetstore.unity.com/packages/package/180061"
+  },
+  {
+    "asset": "Quick Drag & Drop | Level Placer",
+    "publisher": "MBS Studio",
+    "url": "https://assetstore.unity.com/packages/tools/level-design/quick-drag-drop-level-placer-351352"
   },
   {
     "asset": "Root Select Locker | Faster Hierarchy Workflow",
@@ -9328,6 +9383,11 @@
     "asset": "Phantom Particle",
     "publisher": "shallway",
     "url": "https://assetstore.unity.com/packages/package/56597"
+  },
+  {
+    "asset": "X-WeaponTrail",
+    "publisher": "shallway",
+    "url": "https://assetstore.unity.com/packages/tools/particles-effects/x-weapontrail-20972"
   },
   {
     "asset": "Xffect Editor Pro",
