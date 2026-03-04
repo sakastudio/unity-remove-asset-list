@@ -64,10 +64,8 @@ export function FilterDrawer({
 
           <CategoryFilter
             tree={categoryTree}
-            selectedCategories={filters.categories}
-            selectedSubcategories={filters.subcategories}
-            onCategoryChange={cats => onUpdateFilters({ categories: cats })}
-            onSubcategoryChange={subs => onUpdateFilters({ subcategories: subs })}
+            selectedCategory={filters.category}
+            onCategoryChange={cat => onUpdateFilters({ category: cat })}
           />
 
           <PriceFilter

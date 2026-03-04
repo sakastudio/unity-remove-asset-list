@@ -32,7 +32,3 @@ export function buildCategoryTree(allCategories: string[][]): CategoryNode[] {
 
   return root;
 }
-
-export function getTopLevelCategories(tree: CategoryNode[]): string[] {
-  return tree.map(n => n.name);
-}

@@ -23,17 +23,11 @@ export function ActiveFilters({ query, filters, onRemoveQuery, onUpdateFilters, 
     });
   }
 
-  for (const cat of filters.categories) {
+  if (filters.category) {
+    const displayPath = filters.category.split('/').join(' > ');
     chips.push({
-      label: `Category: ${cat}`,
-      onRemove: () => onUpdateFilters({ categories: filters.categories.filter(c => c !== cat) }),
-    });
-  }
-
-  for (const sub of filters.subcategories) {
-    chips.push({
-      label: `Subcategory: ${sub}`,
-      onRemove: () => onUpdateFilters({ subcategories: filters.subcategories.filter(s => s !== sub) }),
+      label: `Category: ${displayPath}`,
+      onRemove: () => onUpdateFilters({ category: null }),
     });
   }
 

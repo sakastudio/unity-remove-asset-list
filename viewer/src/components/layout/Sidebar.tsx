@@ -13,10 +13,8 @@ export function Sidebar({ filters, categoryTree, onUpdateFilters }: Props) {
       <div className="sticky top-[65px] overflow-y-auto max-h-[calc(100vh-80px)] pr-2 pb-8">
         <CategoryFilter
           tree={categoryTree}
-          selectedCategories={filters.categories}
-          selectedSubcategories={filters.subcategories}
-          onCategoryChange={cats => onUpdateFilters({ categories: cats })}
-          onSubcategoryChange={subs => onUpdateFilters({ subcategories: subs })}
+          selectedCategory={filters.category}
+          onCategoryChange={cat => onUpdateFilters({ category: cat })}
         />
       </div>
     </aside>

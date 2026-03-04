@@ -48,17 +48,20 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
       {asset.category.length > 0 && (
         <div className="flex items-center gap-1.5 text-sm">
           <span className="text-gray-500">Category:</span>
-          {asset.category.map((cat, i) => (
-            <span key={i} className="flex items-center gap-1.5">
-              {i > 0 && <span className="text-gray-400">›</span>}
-              <button
-                onClick={() => onCategoryClick(cat)}
-                className="text-blue-600 hover:underline"
-              >
-                {cat}
-              </button>
-            </span>
-          ))}
+          {asset.category.map((cat, i) => {
+            const path = asset.category.slice(0, i + 1).join('/');
+            return (
+              <span key={i} className="flex items-center gap-1.5">
+                {i > 0 && <span className="text-gray-400">›</span>}
+                <button
+                  onClick={() => onCategoryClick(path)}
+                  className="text-blue-600 hover:underline"
+                >
+                  {cat}
+                </button>
+              </span>
+            );
+          })}
         </div>
       )}
 

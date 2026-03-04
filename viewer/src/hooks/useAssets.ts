@@ -134,8 +134,7 @@ export function useAssets() {
 
   const hasActiveFilters = useMemo(() => {
     const f = filters;
-    return f.categories.length > 0 ||
-      f.subcategories.length > 0 ||
+    return f.category !== null ||
       f.priceType !== 'all' ||
       f.priceMin !== null ||
       f.priceMax !== null ||

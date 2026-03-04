@@ -14,8 +14,7 @@ interface UrlState {
 function parseParams(): UrlState {
   const params = new URLSearchParams(window.location.search);
 
-  const cats = params.get('cat');
-  const subs = params.get('sub');
+  const cat = params.get('cat');
   const priceType = params.get('price') as 'free' | 'paid' | null;
   const pmin = params.get('pmin');
   const pmax = params.get('pmax');
@@ -41,8 +40,7 @@ function parseParams(): UrlState {
   return {
     query: params.get('q') || '',
     filters: {
-      categories: cats ? cats.split(',').filter(Boolean) : [],
-      subcategories: subs ? subs.split(',').filter(Boolean) : [],
+      category: cat || null,
       priceType: priceType === 'free' || priceType === 'paid' ? priceType : 'all',
       priceMin: pmin ? parseFloat(pmin) : null,
       priceMax: pmax ? parseFloat(pmax) : null,
@@ -60,8 +58,7 @@ function buildSearch(state: UrlState): string {
   const params = new URLSearchParams();
 
   if (state.query) params.set('q', state.query);
-  if (state.filters.categories.length) params.set('cat', state.filters.categories.join(','));
-  if (state.filters.subcategories.length) params.set('sub', state.filters.subcategories.join(','));
+  if (state.filters.category) params.set('cat', state.filters.category);
   if (state.filters.priceType !== 'all') params.set('price', state.filters.priceType);
   if (state.filters.priceMin !== null) params.set('pmin', String(state.filters.priceMin));
   if (state.filters.priceMax !== null) params.set('pmax', String(state.filters.priceMax));

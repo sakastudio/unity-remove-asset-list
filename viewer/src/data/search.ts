@@ -31,18 +31,13 @@ function parseReleaseDate(dateStr: string | null): number {
 }
 
 function matchesFilters(asset: AssetDetail, filters: Filters): boolean {
-  // Category filter
-  if (filters.categories.length > 0) {
-    const topCat = asset.category[0];
-    if (!topCat || !filters.categories.includes(topCat)) return false;
-  }
-
-  // Subcategory filter
-  if (filters.subcategories.length > 0) {
-    const hasMatch = filters.subcategories.some(sub =>
-      asset.category.includes(sub)
-    );
-    if (!hasMatch) return false;
+  // Category filter: check if asset's category path starts with the selected path
+  if (filters.category) {
+    const filterParts = filters.category.split('/');
+    if (asset.category.length < filterParts.length) return false;
+    for (let i = 0; i < filterParts.length; i++) {
+      if (asset.category[i] !== filterParts[i]) return false;
+    }
   }
 
   // Price filter

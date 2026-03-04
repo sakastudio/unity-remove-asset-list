@@ -27,8 +27,7 @@ export interface CategoryNode {
 }
 
 export interface Filters {
-  categories: string[];
-  subcategories: string[];
+  category: string | null; // Full path like "3D/Characters/Humanoids"
   priceType: 'all' | 'free' | 'paid';
   priceMin: number | null;
   priceMax: number | null;
@@ -53,8 +52,7 @@ export interface LoadedData {
 }
 
 export const DEFAULT_FILTERS: Filters = {
-  categories: [],
-  subcategories: [],
+  category: null,
   priceType: 'all',
   priceMin: null,
   priceMax: null,

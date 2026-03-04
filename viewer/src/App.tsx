@@ -38,16 +38,10 @@ export default function App() {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleCategoryClick = useCallback((cat: string) => {
-    // Check if it's a top-level category
-    const isTopLevel = categoryTree.some(n => n.name === cat);
-    if (isTopLevel) {
-      updateFilters({ categories: [cat], subcategories: [] });
-    } else {
-      updateFilters({ subcategories: [cat] });
-    }
+  const handleCategoryClick = useCallback((categoryPath: string) => {
+    updateFilters({ category: categoryPath });
     closeAsset();
-  }, [categoryTree, updateFilters, closeAsset]);
+  }, [updateFilters, closeAsset]);
 
   const handleKeywordClick = useCallback((keyword: string) => {
     setQuery(keyword);

@@ -1,109 +1,109 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import type { CategoryNode } from '../../types';
 
 interface Props {
   tree: CategoryNode[];
-  selectedCategories: string[];
-  selectedSubcategories: string[];
-  onCategoryChange: (cats: string[]) => void;
-  onSubcategoryChange: (subs: string[]) => void;
+  selectedCategory: string | null; // Full path like "3D/Characters/Humanoids"
+  onCategoryChange: (category: string | null) => void;
 }
 
-export function CategoryFilter({
-  tree,
-  selectedCategories,
-  selectedSubcategories,
-  onCategoryChange,
-  onSubcategoryChange,
-}: Props) {
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(selectedCategories));
+export function CategoryFilter({ tree, selectedCategory, onCategoryChange }: Props) {
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    // Auto-expand ancestors of selected category
+    const set = new Set<string>();
+    if (selectedCategory) {
+      const parts = selectedCategory.split('/');
+      for (let i = 1; i <= parts.length; i++) {
+        set.add(parts.slice(0, i).join('/'));
+      }
+    }
+    return set;
+  });
 
-  const toggleExpand = (name: string) => {
+  const toggleExpand = useCallback((path: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     setExpanded(prev => {
       const next = new Set(prev);
-      if (next.has(name)) {
-        next.delete(name);
-        // Remove from selected categories
-        onCategoryChange(selectedCategories.filter(c => c !== name));
-        // Remove all subcategories under this top-level
-        const node = tree.find(n => n.name === name);
-        if (node) {
-          const subNames = getAllDescendantNames(node);
-          onSubcategoryChange(selectedSubcategories.filter(s => !subNames.has(s)));
-        }
+      if (next.has(path)) {
+        next.delete(path);
       } else {
-        next.add(name);
-        // Add to selected categories
-        if (!selectedCategories.includes(name)) {
-          onCategoryChange([...selectedCategories, name]);
-        }
+        next.add(path);
       }
       return next;
     });
-  };
+  }, []);
 
-  const toggleSubcategory = (sub: string) => {
-    if (selectedSubcategories.includes(sub)) {
-      onSubcategoryChange(selectedSubcategories.filter(s => s !== sub));
+  const selectCategory = useCallback((path: string) => {
+    if (selectedCategory === path) {
+      onCategoryChange(null); // Deselect
     } else {
-      onSubcategoryChange([...selectedSubcategories, sub]);
+      onCategoryChange(path);
     }
+  }, [selectedCategory, onCategoryChange]);
+
+  const renderNode = (node: CategoryNode, parentPath: string, depth: number) => {
+    const path = parentPath ? `${parentPath}/${node.name}` : node.name;
+    const isSelected = selectedCategory === path;
+    const isAncestorOfSelected = selectedCategory !== null && selectedCategory.startsWith(path + '/');
+    const isExpanded = expanded.has(path);
+    const hasChildren = node.children.length > 0;
+
+    return (
+      <div key={path}>
+        <div
+          className={`flex items-center gap-1 pr-2 rounded cursor-pointer transition-colors ${
+            isSelected
+              ? 'bg-blue-50 text-blue-700 font-medium'
+              : isAncestorOfSelected
+                ? 'text-blue-600'
+                : 'text-gray-700 hover:bg-gray-50'
+          }`}
+          style={{ paddingLeft: `${depth * 16 + 4}px` }}
+        >
+          {/* Expand/collapse arrow */}
+          {hasChildren ? (
+            <button
+              onClick={(e) => toggleExpand(path, e)}
+              className="flex-shrink-0 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600"
+            >
+              <svg
+                className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M6 4l8 6-8 6V4z" />
+              </svg>
+            </button>
+          ) : (
+            <span className="flex-shrink-0 w-5" />
+          )}
+
+          {/* Category name */}
+          <button
+            onClick={() => selectCategory(path)}
+            className="flex-1 flex items-center justify-between py-1.5 text-sm text-left min-w-0"
+          >
+            <span className="truncate">{node.name}</span>
+            <span className="flex-shrink-0 ml-2 text-xs text-gray-400">{node.count}</span>
+          </button>
+        </div>
+
+        {/* Children */}
+        {isExpanded && hasChildren && (
+          <div>
+            {node.children.map(child => renderNode(child, path, depth + 1))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
     <div>
       <h3 className="font-semibold text-sm text-gray-700 mb-2">Category</h3>
       <div className="space-y-0.5">
-        {tree.map(node => (
-          <div key={node.name}>
-            <button
-              onClick={() => toggleExpand(node.name)}
-              className={`w-full flex items-center justify-between px-2 py-1.5 text-sm rounded hover:bg-gray-100 transition-colors ${
-                selectedCategories.includes(node.name) ? 'text-blue-600 font-medium' : 'text-gray-700'
-              }`}
-            >
-              <span className="flex items-center gap-1">
-                <span className={`text-xs transition-transform ${expanded.has(node.name) ? 'rotate-90' : ''}`}>
-                  ▶
-                </span>
-                {node.name}
-              </span>
-              <span className="text-xs text-gray-400">{node.count}</span>
-            </button>
-
-            {expanded.has(node.name) && node.children.length > 0 && (
-              <div className="ml-5 space-y-0.5">
-                {node.children.map(child => (
-                  <label
-                    key={child.name}
-                    className="flex items-center gap-2 px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedSubcategories.includes(child.name)}
-                      onChange={() => toggleSubcategory(child.name)}
-                      className="rounded text-blue-600"
-                    />
-                    <span className="flex-1">{child.name}</span>
-                    <span className="text-xs text-gray-400">{child.count}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+        {tree.map(node => renderNode(node, '', 0))}
       </div>
     </div>
   );
-}
-
-function getAllDescendantNames(node: CategoryNode): Set<string> {
-  const names = new Set<string>();
-  for (const child of node.children) {
-    names.add(child.name);
-    for (const name of getAllDescendantNames(child)) {
-      names.add(name);
-    }
-  }
-  return names;
 }
