@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Filters, SortConfig, CategoryNode } from '../../types';
 import { CategoryFilter } from '../filters/CategoryFilter';
 import { PriceFilter } from '../filters/PriceFilter';
@@ -29,6 +30,8 @@ export function FilterDrawer({
   onUpdateFilters,
   onSortChange,
 }: Props) {
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (open) {
       document.body.classList.add('modal-open');
@@ -48,7 +51,7 @@ export function FilterDrawer({
       {/* Drawer */}
       <div className="absolute left-0 top-0 bottom-0 w-[300px] bg-white shadow-xl overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="font-semibold text-gray-900">Filters</h2>
+          <h2 className="font-semibold text-gray-900">{t('filters.title')}</h2>
           <button
             onClick={onClose}
             className="p-1 text-gray-500 hover:text-gray-700"

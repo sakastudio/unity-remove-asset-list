@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
+
 interface PriceBadgeProps {
   price: string | null;
 }
 
 export function PriceBadge({ price }: PriceBadgeProps) {
+  const { t } = useTranslation();
   const isFree = price === null || parseFloat(price) === 0;
 
   return (
@@ -13,7 +16,7 @@ export function PriceBadge({ price }: PriceBadgeProps) {
           : 'bg-gray-800 text-white'
       }`}
     >
-      {isFree ? 'FREE' : `$${parseFloat(price!).toFixed(2)}`}
+      {isFree ? t('badge.free') : `$${parseFloat(price!).toFixed(2)}`}
     </span>
   );
 }

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { AssetDetail } from '../../types';
 import { AssetCard } from './AssetCard';
 
@@ -21,6 +22,8 @@ function SkeletonCard() {
 }
 
 export function AssetGrid({ assets, loading, onAssetClick }: Props) {
+  const { t } = useTranslation();
+
   if (loading) {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -34,8 +37,8 @@ export function AssetGrid({ assets, loading, onAssetClick }: Props) {
   if (assets.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-500 text-lg">該当するアセットがありません</p>
-        <p className="text-gray-400 text-sm mt-1">検索条件やフィルターを変更してください</p>
+        <p className="text-gray-500 text-lg">{t('grid.noResults')}</p>
+        <p className="text-gray-400 text-sm mt-1">{t('grid.noResultsHint')}</p>
       </div>
     );
   }

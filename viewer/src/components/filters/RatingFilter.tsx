@@ -1,12 +1,16 @@
+import { useTranslation } from 'react-i18next';
+
 interface Props {
   minRating: number | null;
   onChange: (rating: number | null) => void;
 }
 
 export function RatingFilter({ minRating, onChange }: Props) {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <h3 className="font-semibold text-sm text-gray-700 mb-2">Minimum Rating</h3>
+      <h3 className="font-semibold text-sm text-gray-700 mb-2">{t('filters.minRating')}</h3>
       <div className="space-y-0.5">
         {[5, 4, 3, 2, 1].map(r => (
           <button
@@ -21,7 +25,7 @@ export function RatingFilter({ minRating, onChange }: Props) {
                 <span key={i} className={i <= r ? 'text-yellow-400' : 'text-gray-300'}>★</span>
               ))}
             </span>
-            <span className="text-xs text-gray-400">& up</span>
+            <span className="text-xs text-gray-400">{t('filters.ratingUp')}</span>
           </button>
         ))}
       </div>

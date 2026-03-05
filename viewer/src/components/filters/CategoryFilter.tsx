@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { CategoryNode } from '../../types';
 
 interface Props {
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export function CategoryFilter({ tree, selectedCategory, onCategoryChange }: Props) {
+  const { t } = useTranslation();
+
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     // Auto-expand ancestors of selected category
     const set = new Set<string>();
@@ -83,7 +86,7 @@ export function CategoryFilter({ tree, selectedCategory, onCategoryChange }: Pro
             onClick={() => selectCategory(path)}
             className="flex-1 flex items-center justify-between py-1.5 text-sm text-left min-w-0"
           >
-            <span className="truncate">{node.name}</span>
+            <span className="truncate">{t(`categories.${node.name}`, node.name)}</span>
             <span className="flex-shrink-0 ml-2 text-xs text-gray-400">{node.count}</span>
           </button>
         </div>
@@ -100,7 +103,7 @@ export function CategoryFilter({ tree, selectedCategory, onCategoryChange }: Pro
 
   return (
     <div>
-      <h3 className="font-semibold text-sm text-gray-700 mb-2">Category</h3>
+      <h3 className="font-semibold text-sm text-gray-700 mb-2">{t('filters.category')}</h3>
       <div className="space-y-0.5">
         {tree.map(node => renderNode(node, '', 0))}
       </div>

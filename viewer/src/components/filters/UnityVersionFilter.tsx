@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface Props {
   versions: string[];
   selected: string[];
@@ -5,6 +7,8 @@ interface Props {
 }
 
 export function UnityVersionFilter({ versions, selected, onChange }: Props) {
+  const { t } = useTranslation();
+
   const toggle = (v: string) => {
     if (selected.includes(v)) {
       onChange(selected.filter(s => s !== v));
@@ -15,7 +19,7 @@ export function UnityVersionFilter({ versions, selected, onChange }: Props) {
 
   return (
     <div>
-      <h3 className="font-semibold text-sm text-gray-700 mb-2">Unity Version</h3>
+      <h3 className="font-semibold text-sm text-gray-700 mb-2">{t('filters.unityVersion')}</h3>
       <div className="space-y-0.5">
         {versions.map(v => (
           <label

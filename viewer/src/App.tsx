@@ -65,6 +65,7 @@ export default function App() {
             filters={filters}
             sort={sort}
             unityMajorVersions={unityMajorVersions}
+            priceRange={priceRange}
             pageSize={pageSize}
             onUpdateFilters={updateFilters}
             onSortChange={setSort}

@@ -1,3 +1,6 @@
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '../common/LanguageSwitcher';
+
 interface Props {
   query: string;
   onQueryChange: (q: string) => void;
@@ -7,6 +10,8 @@ interface Props {
 }
 
 export function Header({ query, onQueryChange, totalCount, allCount, onToggleFilters }: Props) {
+  const { t } = useTranslation();
+
   return (
     <header className="sticky top-0 z-30 bg-white border-b shadow-sm">
       <div className="max-w-screen-2xl mx-auto px-4 py-3 flex items-center gap-4">
@@ -23,10 +28,10 @@ export function Header({ query, onQueryChange, totalCount, allCount, onToggleFil
 
         {/* Title */}
         <h1 className="text-lg font-bold text-gray-900 whitespace-nowrap hidden sm:block">
-          Removed Assets Archive
+          {t('header.title')}
         </h1>
         <h1 className="text-base font-bold text-gray-900 whitespace-nowrap sm:hidden">
-          RAA
+          {t('header.titleShort')}
         </h1>
 
         {/* Search */}
@@ -42,7 +47,7 @@ export function Header({ query, onQueryChange, totalCount, allCount, onToggleFil
               type="text"
               value={query}
               onChange={e => onQueryChange(e.target.value)}
-              placeholder="Search assets..."
+              placeholder={t('header.searchPlaceholder')}
               className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm bg-gray-50 focus:bg-white focus:border-blue-400 transition-colors"
             />
             {query && (
@@ -58,8 +63,11 @@ export function Header({ query, onQueryChange, totalCount, allCount, onToggleFil
 
         {/* Count */}
         <span className="text-sm text-gray-500 whitespace-nowrap hidden sm:block">
-          {totalCount.toLocaleString()} / {allCount.toLocaleString()} assets
+          {t('header.assetsCount', { total: totalCount.toLocaleString(), all: allCount.toLocaleString() })}
         </span>
+
+        {/* Language */}
+        <LanguageSwitcher />
       </div>
     </header>
   );

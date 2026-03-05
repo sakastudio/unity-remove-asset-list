@@ -1,6 +1,5 @@
 import type { AssetDetail } from '../../types';
 import { Thumbnail } from '../common/Thumbnail';
-import { PriceBadge } from '../common/Badge';
 import { StarRating } from '../common/StarRating';
 
 interface Props {
@@ -16,14 +15,22 @@ export function AssetCard({ asset, onClick }: Props) {
     >
       <div className="relative">
         <Thumbnail src={asset.thumbnail} alt={asset.asset} />
-        <div className="absolute top-2 right-2">
-          <PriceBadge price={asset.price} />
-        </div>
       </div>
       <div className="p-3">
-        <h3 className="font-medium text-sm text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
-          {asset.asset}
-        </h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-medium text-sm text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug min-w-0">
+            {asset.asset}
+          </h3>
+          <span className={`text-base font-bold whitespace-nowrap shrink-0 ${
+            asset.price === null || parseFloat(asset.price) === 0
+              ? 'text-green-600'
+              : 'text-gray-900'
+          }`}>
+            {asset.price === null || parseFloat(asset.price) === 0
+              ? 'FREE'
+              : `$${parseFloat(asset.price!).toFixed(0)}`}
+          </span>
+        </div>
         <p className="text-xs text-gray-500 mt-1 truncate">
           {asset.publisher}
         </p>

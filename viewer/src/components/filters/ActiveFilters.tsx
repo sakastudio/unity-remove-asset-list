@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Filters } from '../../types';
 
 interface Props {
@@ -14,36 +15,37 @@ interface Chip {
 }
 
 export function ActiveFilters({ query, filters, onRemoveQuery, onUpdateFilters, onClearAll }: Props) {
+  const { t } = useTranslation();
   const chips: Chip[] = [];
 
   if (query) {
     chips.push({
-      label: `Search: "${query}"`,
+      label: t('activeFilters.search', { query }),
       onRemove: onRemoveQuery,
     });
   }
 
   if (filters.category) {
-    const displayPath = filters.category.split('/').join(' > ');
+    const displayPath = filters.category.split('/').map(seg => t(`categories.${seg}`, seg)).join(' > ');
     chips.push({
-      label: `Category: ${displayPath}`,
+      label: t('activeFilters.category', { name: displayPath }),
       onRemove: () => onUpdateFilters({ category: null }),
     });
   }
 
   if (filters.priceType === 'free') {
     chips.push({
-      label: 'Price: Free',
+      label: t('activeFilters.priceFree'),
       onRemove: () => onUpdateFilters({ priceType: 'all', priceMin: null, priceMax: null }),
     });
   } else if (filters.priceType === 'paid') {
-    let label = 'Price: Paid';
+    let label = t('activeFilters.pricePaid');
     if (filters.priceMin !== null || filters.priceMax !== null) {
       const parts: string[] = [];
       if (filters.priceMin !== null) parts.push(`$${filters.priceMin}`);
       parts.push('—');
       if (filters.priceMax !== null) parts.push(`$${filters.priceMax}`);
-      label += ` (${parts.join('')})`;
+      label = t('activeFilters.pricePaidRange', { range: parts.join('') });
     }
     chips.push({
       label,
@@ -53,14 +55,14 @@ export function ActiveFilters({ query, filters, onRemoveQuery, onUpdateFilters, 
 
   if (filters.minRating !== null) {
     chips.push({
-      label: `Rating: ${'★'.repeat(filters.minRating)}+`,
+      label: t('activeFilters.rating', { stars: '★'.repeat(filters.minRating) }),
       onRemove: () => onUpdateFilters({ minRating: null }),
     });
   }
 
   for (const v of filters.unityVersions) {
     chips.push({
-      label: `Unity: ${v}`,
+      label: t('activeFilters.unity', { version: v }),
       onRemove: () => onUpdateFilters({ unityVersions: filters.unityVersions.filter(u => u !== v) }),
     });
   }
@@ -87,7 +89,7 @@ export function ActiveFilters({ query, filters, onRemoveQuery, onUpdateFilters, 
         onClick={onClearAll}
         className="text-xs text-gray-500 hover:text-gray-700 underline"
       >
-        すべてクリア
+        {t('filters.clearAll')}
       </button>
     </div>
   );

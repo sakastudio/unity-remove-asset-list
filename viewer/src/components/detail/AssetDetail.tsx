@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { AssetDetail as AssetDetailType } from '../../types';
 import { Thumbnail } from '../common/Thumbnail';
 import { PriceBadge } from '../common/Badge';
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       {/* Header section */}
@@ -27,7 +30,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline"
             >
-              Asset Store で見る ↗
+              {t('detail.viewOnStore')}
             </a>
           )}
           <div className="flex items-center gap-3">
@@ -35,7 +38,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
           </div>
           {asset.favorites > 0 && (
             <p className="text-sm text-gray-500">
-              ♡ {asset.favorites.toLocaleString()} favorites
+              {t('detail.favorites', { num: asset.favorites.toLocaleString() })}
             </p>
           )}
           <div className="pt-2">
@@ -47,7 +50,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
       {/* Category breadcrumb */}
       {asset.category.length > 0 && (
         <div className="flex items-center gap-1.5 text-sm">
-          <span className="text-gray-500">Category:</span>
+          <span className="text-gray-500">{t('detail.category')}</span>
           {asset.category.map((cat, i) => {
             const path = asset.category.slice(0, i + 1).join('/');
             return (
@@ -57,7 +60,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
                   onClick={() => onCategoryClick(path)}
                   className="text-blue-600 hover:underline"
                 >
-                  {cat}
+                  {t(`categories.${cat}`, cat)}
                 </button>
               </span>
             );
@@ -68,7 +71,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
       {/* Description */}
       {asset.description && (
         <div>
-          <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">Description</h3>
+          <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">{t('detail.description')}</h3>
           <p className="text-sm text-gray-600 whitespace-pre-line leading-relaxed">
             {asset.description}
           </p>
@@ -77,15 +80,15 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
 
       {/* Technical specs */}
       <div>
-        <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">Technical Details</h3>
+        <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">{t('detail.technicalDetails')}</h3>
         <table className="text-sm w-full">
           <tbody>
             {[
-              ['File Size', asset.fileSize],
-              ['Unity Version', asset.unityVersion],
-              ['Latest Version', asset.latestVersion],
-              ['Release Date', asset.releaseDate],
-              ['License', asset.license],
+              [t('detail.fileSize'), asset.fileSize],
+              [t('detail.unityVersion'), asset.unityVersion],
+              [t('detail.latestVersion'), asset.latestVersion],
+              [t('detail.releaseDate'), asset.releaseDate],
+              [t('detail.license'), asset.license],
             ]
               .filter(([, v]) => v)
               .map(([label, value]) => (
@@ -101,7 +104,7 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
       {/* Keywords */}
       {asset.keywords.length > 0 && (
         <div>
-          <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">Keywords</h3>
+          <h3 className="font-semibold text-gray-700 border-b pb-1 mb-2">{t('detail.keywords')}</h3>
           <div className="flex flex-wrap gap-1.5">
             {asset.keywords.map(kw => (
               <button
