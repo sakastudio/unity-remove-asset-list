@@ -25,7 +25,6 @@ export default function App() {
     query,
     filters,
     sort,
-    hasActiveFilters,
     setQuery,
     updateFilters,
     setSort,
@@ -73,18 +72,16 @@ export default function App() {
           />
         </div>
 
-        {/* Active filters */}
-        {(hasActiveFilters || query) && (
-          <div className="pt-3">
-            <ActiveFilters
-              query={query}
-              filters={filters}
-              onRemoveQuery={() => setQuery('')}
-              onUpdateFilters={updateFilters}
-              onClearAll={clearFilters}
-            />
-          </div>
-        )}
+        {/* Active filters (reserve space even when empty to avoid layout shift) */}
+        <div className="pt-3 min-h-[52px]">
+          <ActiveFilters
+            query={query}
+            filters={filters}
+            onRemoveQuery={() => setQuery('')}
+            onUpdateFilters={updateFilters}
+            onClearAll={clearFilters}
+          />
+        </div>
 
         <div className="flex gap-6 pt-4">
           {/* Sidebar (desktop) - category only */}
