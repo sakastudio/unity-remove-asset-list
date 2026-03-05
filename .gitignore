@@ -1,5 +1,2 @@
 node_modules/
 .DS_Store
-progress.json
-scrape-progress.json
-verification-report.json

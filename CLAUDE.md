@@ -4,20 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-Unity Asset Storeから2025年3月31日に削除されるアセット（約2,678件）の情報を収集・保存し、Webビューワーで閲覧できるようにするプロジェクト。
+Unity Asset Storeから2025年3月31日に削除されたアセット（約2,678件）の情報をWebビューワーで閲覧できるようにするプロジェクト。
 
-- **スクレイピングツール**: TypeScript + ES Modules（ルート直下）
 - **Webビューワー**: React 19 + Vite + Tailwind CSS（`viewer/`）
 
 ## コマンド
 
 ```bash
-# === スクレイピングツール（ルート） ===
-npm run setup                    # 依存関係 + Playwrightブラウザインストール
-npm start                        # find-asset-urls.mts を実行
-npx tsx scrape-asset-details.mts # 詳細スクレイピング
-
-# === Webビューワー（viewer/） ===
 cd viewer
 npm install
 npm run prepare-data             # publicにデータのシンボリックリンク作成
@@ -28,22 +21,6 @@ npm run lint                     # ESLint
 ```
 
 ## アーキテクチャ
-
-### データパイプライン（ルート・2つのスクリプトを順番に実行）
-
-1. **`find-asset-urls.mts`** — アセットURL解決
-   - Playwrightでブラウザを起動し、Unity Asset StoreのCoveo検索APIセッションをリクエストインターセプトで取得
-   - パブリッシャー単位でバッチ検索 → 個別検索 → ファジー検索と多段階フォールバックでマッチング
-   - タイトル類似度は正規化Jaccard類似度で判定（閾値: 0.7、ファジー: 0.85）
-   - 入力: `assets_being_removed_march_31st.json` → 出力: `results.json`
-
-2. **`scrape-asset-details.mts`** — メタデータ・サムネイル取得
-   - 並列ワーカープール（同時5リクエスト）でアセットページをスクレイピング
-   - JSON-LD → React SSRパターン → DOM → 正規表現の優先順位でメタデータ抽出
-   - サムネイルを`thumbnails/`にダウンロード（packageIdベースのファイル名）
-   - 出力: `asset-details.json`
-
-共通パターン: レジューム機能（`progress.json` / `scrape-progress.json`）、リトライ+指数バックオフ、SIGINT graceful shutdown
 
 ### Webビューワー（`viewer/`）
 
@@ -75,13 +52,9 @@ viewer/src/
 
 | ファイル | 内容 |
 |---------|------|
-| `assets_being_removed_march_31st.json` | 入力: `[{ asset, publisher }, ...]` |
-| `results.json` | URL解決結果: `[{ asset, publisher, url }, ...]` |
 | `asset-details.json` | 全メタデータ（価格, 評価, カテゴリ, 技術仕様等） |
 | `thumbnails/` | サムネイル画像（`{packageId}.jpg`）約2,675件 |
 
 ## 注意事項
 
 - コミットメッセージは日本語で記述する
-- `progress.json`と`scrape-progress.json`は`.gitignore`対象（一時ファイル）
-- Coveoセッショントークンは動的に取得されるため、APIキーの管理は不要
