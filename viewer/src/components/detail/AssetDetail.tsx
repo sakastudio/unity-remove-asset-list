@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { AssetDetail as AssetDetailType } from '../../types';
 import { Thumbnail } from '../common/Thumbnail';
-import { PriceBadge } from '../common/Badge';
 import { StarRating } from '../common/StarRating';
 
 interface Props {
@@ -42,7 +41,17 @@ export function AssetDetail({ asset, onCategoryClick, onKeywordClick }: Props) {
             </p>
           )}
           <div className="pt-2">
-            <PriceBadge price={asset.price} />
+            <span
+              className={`px-3 py-1.5 rounded-md text-xl font-bold ${
+                asset.price === null || parseFloat(asset.price) === 0
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-800 text-white'
+              }`}
+            >
+              {asset.price === null || parseFloat(asset.price) === 0
+                ? t('badge.free')
+                : `$${parseFloat(asset.price).toFixed(2)}`}
+            </span>
           </div>
         </div>
       </div>
