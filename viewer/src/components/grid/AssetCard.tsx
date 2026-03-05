@@ -1,6 +1,7 @@
 import type { AssetDetail } from '../../types';
 import { Thumbnail } from '../common/Thumbnail';
 import { StarRating } from '../common/StarRating';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   asset: AssetDetail;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function AssetCard({ asset, onClick }: Props) {
+  const { t } = useTranslation();
   return (
     <button
       onClick={onClick}
@@ -34,8 +36,21 @@ export function AssetCard({ asset, onClick }: Props) {
         <p className="text-xs text-gray-500 mt-1 truncate">
           {asset.publisher}
         </p>
-        <div className="mt-1">
+        <div className="flex items-end justify-between mt-1">
           <StarRating rating={asset.rating} reviewCount={asset.reviewCount} />
+          <a
+            href={asset.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-1 text-xs text-gray-400 hover:text-blue-600 transition-colors shrink-0"
+          >
+            <span>{t('detail.viewOnStore')}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+          </a>
         </div>
       </div>
     </button>
