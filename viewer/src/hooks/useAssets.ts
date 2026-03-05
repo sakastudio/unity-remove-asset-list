@@ -63,6 +63,34 @@ export function useAssets() {
     return filterAndSort(data.assets, debouncedQuery, filters, sort);
   }, [data, debouncedQuery, filters, sort]);
 
+  const filteredCategoryTree = useMemo(() => {
+    if (!data) return [] as CategoryNode[];
+    const filtersWithoutCategory = { ...filters, category: null };
+    const categoryFilteredAssets = filterAndSort(data.assets, debouncedQuery, filtersWithoutCategory, null).assets;
+
+    const countByPath = new Map<string, number>();
+    for (const asset of categoryFilteredAssets) {
+      let currentPath = '';
+      for (const segment of asset.category) {
+        currentPath = currentPath ? `${currentPath}/${segment}` : segment;
+        countByPath.set(currentPath, (countByPath.get(currentPath) ?? 0) + 1);
+      }
+    }
+
+    const applyCountsInOriginalOrder = (nodes: CategoryNode[], parentPath = ''): CategoryNode[] => {
+      return nodes
+        .map(node => {
+          const path = parentPath ? `${parentPath}/${node.name}` : node.name;
+          const count = countByPath.get(path) ?? 0;
+          const children = applyCountsInOriginalOrder(node.children, path);
+          return { ...node, count, children };
+        })
+        .filter(node => node.count > 0);
+    };
+
+    return applyCountsInOriginalOrder(data.categoryTree);
+  }, [data, debouncedQuery, filters]);
+
   // pageSize=0 means show all
   const effectivePageSize = pageSize === 0 ? searchResult.totalCount || 1 : pageSize;
   const pageCount = Math.max(1, Math.ceil(searchResult.totalCount / effectivePageSize));
@@ -154,7 +182,7 @@ export function useAssets() {
     selectedAsset,
 
     // Metadata
-    categoryTree: data?.categoryTree ?? [] as CategoryNode[],
+    categoryTree: filteredCategoryTree,
     unityMajorVersions: data?.unityMajorVersions ?? [],
     priceRange: data?.priceRange ?? { min: 0, max: 0 },
 
